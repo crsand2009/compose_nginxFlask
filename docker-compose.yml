@@ -1,0 +1,26 @@
+version: '3'
+services:
+    revprox:
+        image: nginx:alpine 
+        depends_on:
+            - webstatic
+            - webapp
+            - redis
+        ports:
+            - 80:80
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf
+    webstatic:
+        container_name: webstatic
+        image: nginx:alpine
+        ports:
+            - 8080:80
+        volumes: 
+            - ~/Desktop/compose_nginxFlask/html:/usr/share/nginx/html
+    webapp:
+        container_name: webapp
+        build: .
+        ports:
+            - 5000:5000
+    redis:
+        image: "redis:alpine"
